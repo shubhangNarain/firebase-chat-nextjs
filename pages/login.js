@@ -3,7 +3,23 @@ import React from 'react'
 
 import {IoLogoGoogle, IoLogoFacebook} from 'react-icons/io'
 
+import { auth } from '../firebase/firebase'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+
 const login = () => {
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        const email = e.target[0].value;
+        const password = e.target[1].value;
+
+        try {
+            await signInWithEmailAndPassword(auth, email, password)
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
   return (
     <div className='h-[100vh] flex justify-center items-center bg-c1'>
         <div className='flex items-center flex-col'>
@@ -39,7 +55,9 @@ const login = () => {
                 <span className='w-5 h-[1px] bg-c3'></span>
             </div>
 
-            <form className='flex flex-col items-center gap-3 w-[500px] mt-5'>
+            <form className='flex flex-col items-center gap-3 w-[500px] mt-5'
+                onSubmit={handleSubmit}
+            >
                 <input
                     type='email'
                     placeholder='Email'
